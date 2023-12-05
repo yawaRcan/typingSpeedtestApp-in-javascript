@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>typing speed</title>
+	<style>
+		*{margin: 0;padding: 0;box-sizing: border-box;}
+		.maindiv{
+			width: 100%;
+			height: 100vh;
+			position: relative;
+			background-color: #4b4453;}
+			.centerdiv{
+				position: absolute;
+				left: 50%;
+				top:50%;
+				transform:translate(-50%,-50%);
+				text-align: center;}
+				h1{
+					text-transform: capitalize;
+					text-align: center;
+					margin-bottom: 30px;
+					color: #b0a8b9;
+					text-shadow: 1px 2px 3px #2980b9;
+					font-size: 2.1rem; 
+				}
+				h2{text-align: center;}
+				textarea{
+                   background-color: #444;
+                   box-shadow: 10px 9px 6px rgba(0,0,0,0.4) ;
+                   border-radius: 10px 10px 0 0;
+                   border:20px solid #34495e;
+                   font-size: 1.3rem;
+                   color: white;}
+                   .mainbtn{
+                   	padding: 20px 27px;
+                   margin-top: 13px;
+                   border: 3px solid #11819f;
+                   background:#11819f;
+                   border-radius: 15px; 
+                   }
+	</style>
+</head>
+<body>
+<div class="maindiv">
+	<div class="centerdiv">
+		<h1>welcome to typing speed test</h1>
+		<h2 id="msg" style="color:#f9f871"></h2><br>
+		<textarea id="mywords" cols="80" rows="11" placeholder="be remember to type all words"></textarea>
+		<br>
+		<button id="btn" class="mainbtn">Start</button>
+	</div>
+</div>
+
+
+
+<script>
+	let  setOfword =["my name is yawar ahmad khan and i am full stack developer","hope you will be fine and this is simple typing speed App","this source code is free to use for every one"];
+
+	const  msg = document.getElementById('msg');
+	const typeWords = document.getElementById('mywords');
+	const btn = document.getElementById('btn');
+	let starttime , endtime;
+
+	 const playGames = () => {
+  let randumnum = Math.floor(Math.random()*setOfword.length);
+  msg.innerText = setOfword[randumnum];
+  let date = new Date();
+  starttime = date.getTime();
+  btn.innerText ="Done";
+    
+}
+const wordCounter = (str)=>{
+    let response =str.split("").length;
+    return response;
+	}
+
+const endplay = () =>{
+	let date = new Date();
+	endtime = date.getTime();
+	let totaltime = ((endtime - starttime)/1000);
+	let totalstr = typeWords.value;
+	let strcount =wordCounter(totalstr);
+	let speed = Math.round((strcount / totaltime) *60);
+	let finalmsg = "you type total "+speed+" words per minute ";
+	finalmsg += compareWords(msg.innerText,totalstr);
+	msg.innerText = finalmsg;
+	
+}
+const compareWords = (str1,str2)=>{
+    let word1 = str1.split("");
+    let word2 = str2.split("");
+    let count = 0;
+    //now for each loop is here 
+    word1.forEach(function(items,index){
+    	if(items ==word2[index]){
+    		count++;
+    	}
+
+    })
+    let error =(word1.length - count);
+    return(count+" correct out of "+word1.length+" words and the total number of errors "+error+".");
+	}
+
+	btn.addEventListener('click', function(){
+		if (this.innerText == 'Start') {
+			typeWords.disabled = false; 
+			playGames();
+		}else if(this.innerText == 'Done'){
+			typeWords.disabled = true;
+			btn.innerText = 'Start';
+			endplay();
+		}
+	})
+	
+</script>
+</body>
+</html>
